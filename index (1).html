@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#006491">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="עוזר משמרת">
+<title>עוזר משמרת</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --head1:#00507A; --head2:#0079AD; --head:#00507A;
+  --btn:#006491; --btn-h:#00507A; --accent:#006491; --sky:#0A8FCB;
+  --red:#C8102E; --brand-red:#E31837;
+  --bg:#EAF3F8; --bg2:#F7FAFC; --surface:#FFFFFF; --text:#12232C; --muted:#52646F; --line:#D3E0E8;
+  --focus:#0B2A3C; --warn-bg:#FFF1D6; --warn-t:#6B4300; --soft:#E4F2F9;
+  --shadow:0 1px 2px rgba(11,42,60,.06),0 10px 28px -12px rgba(11,42,60,.18);
+  --shadow-lg:0 14px 40px -14px rgba(11,42,60,.4);
+  --r:20px; --ease:cubic-bezier(.2,.8,.2,1);
+}
+:root[data-theme="dark"]{
+  --head1:#0A3550; --head2:#0E5C80; --head:#0A3550;
+  --btn:#0A7DB0; --btn-h:#1390C8; --accent:#7CCBF0; --sky:#7CCBF0;
+  --bg:#0A141A; --bg2:#0E1B22; --surface:#13242D; --text:#EAF2F6; --muted:#A8BBC6; --line:#2B4452;
+  --focus:#FFD54A; --warn-bg:#3B2E10; --warn-t:#FFD98A; --soft:#163545;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 28px -12px rgba(0,0,0,.6);
+  --shadow-lg:0 14px 40px -14px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:"Heebo",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;color:var(--text);line-height:1.5;font-size:1rem;
+  background:radial-gradient(60rem 28rem at 100% -8%,rgba(10,143,203,.14),transparent 60%),linear-gradient(180deg,var(--bg),var(--bg2));background-attachment:fixed;min-height:100vh}
+h1,h2{line-height:1.25;margin:0}
+p{margin:.4rem 0}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.top :focus-visible{outline-color:#fff}
+.skip{position:absolute;inset-inline-start:.5rem;top:-4rem;background:#fff;color:#000;padding:.6rem 1rem;border-radius:999px;z-index:100}
+.skip:focus{top:.5rem}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes pop{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+#view>section{animation:rise .28s var(--ease)}
+
+/* header */
+.top{position:sticky;top:0;z-index:30;background:linear-gradient(135deg,var(--head1),var(--head2));color:#fff;border-radius:0 0 26px 26px;box-shadow:var(--shadow-lg);padding:.8rem 1.1rem;padding-top:calc(.8rem + env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+.top::after{content:"";position:absolute;inset-inline:22%;bottom:-3px;height:3px;border-radius:3px;background:var(--brand-red)}
+.brand{display:flex;align-items:center;gap:.7rem}
+.brand strong{display:block;font-size:1.2rem;font-weight:800;letter-spacing:.2px}
+.who{display:block;font-size:.85rem;opacity:.92}
+.tools-wrap{display:flex;align-items:center;gap:.4rem}
+.tools{display:flex;gap:.3rem}
+.icon{min-width:2.75rem;min-height:2.75rem;border:0;background:transparent;color:inherit;border-radius:14px;font:inherit;font-weight:700;cursor:pointer;padding:0 .6rem;transition:background .2s,transform .15s var(--ease),color .2s}
+.icon:active{transform:scale(.94)}
+.icon:disabled{opacity:.35;cursor:default}
+.top .icon{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.32)}
+.top .icon:hover{background:rgba(255,255,255,.26)}
+.icon.txt{font-weight:500}
+
+/* menus */
+.menu{position:relative}
+.top .menu .dot{position:absolute;top:.4rem;inset-inline-end:.4rem;width:.7rem;height:.7rem;border-radius:50%;background:var(--brand-red);border:2px solid #fff}
+.count{display:inline-block;min-width:1.4rem;padding:0 .4rem;border-radius:99px;background:var(--red);color:#fff;font-size:.78rem;font-weight:700;line-height:1.4rem;text-align:center}
+.logo{display:inline-grid;place-items:center;flex:none}
+dialog.drawer{margin:0;padding:0;border:0;position:fixed;top:0;bottom:0;width:min(20rem,86vw);height:100dvh;max-height:100dvh;background:var(--surface);color:var(--text);box-shadow:var(--shadow-lg)}
+dialog.drawer[data-side="nav"]{inset-inline-start:0;inset-inline-end:auto;border-radius:30px 0 0 30px}
+dialog.drawer[data-side="settings"]{inset-inline-start:auto;inset-inline-end:0;border-radius:0 30px 30px 0}
+@keyframes slide-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes slide-l{from{transform:translateX(-100%)}to{transform:none}}
+dialog.drawer[open][data-side="nav"]{animation:slide-r .26s var(--ease)}
+dialog.drawer[open][data-side="settings"]{animation:slide-l .26s var(--ease)}
+.drawer-in{display:flex;flex-direction:column;gap:.25rem;height:100%;padding:1rem;overflow:auto}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;font-size:1.2rem}
+.drawer-head .icon:hover{background:var(--soft)}
+.dr-item{display:flex;align-items:center;justify-content:space-between;gap:.6rem;min-height:3.2rem;padding:.6rem 1rem;border:0;border-radius:16px;background:transparent;color:var(--text);font:inherit;font-weight:500;cursor:pointer;text-align:start;transition:background .2s,transform .15s var(--ease)}
+.dr-item:hover{background:var(--soft)}
+.dr-item:active{transform:scale(.98)}
+.dr-item[aria-current="page"]{background:var(--soft);color:var(--accent);font-weight:700;box-shadow:inset 0 0 0 1px var(--line)}
+.dr-item.danger{color:var(--red)}
+:root[data-theme="dark"] .dr-item.danger{color:#FF8FA0}
+.dr-sep{height:1px;background:var(--line);margin:.5rem .3rem}
+
+/* welcome */
+.welcome{max-width:26rem;margin:2.2rem auto 0;text-align:center;display:grid;gap:.5rem;justify-items:center}
+.welcome h1{font-size:2rem;font-weight:800;margin-top:.6rem}
+.welcome h1:focus{outline:none}
+.welcome .ask{font-size:1.15rem;color:var(--muted);margin-bottom:.9rem}
+.choices{display:grid;gap:.8rem;width:100%}
+.choice{min-height:4rem;border-radius:22px;border:1.5px solid var(--line);background:var(--surface);color:var(--text);font:inherit;font-size:1.15rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow);transition:transform .18s var(--ease),border-color .2s,background .2s}
+.choice:hover{border-color:var(--accent);background:var(--soft);transform:translateY(-2px)}
+.choice:active{transform:scale(.98)}
+.choice.last{border-color:var(--accent)}
+
+/* layout */
+main{max-width:46rem;margin:0 auto;padding:1.2rem 1rem 3rem}
+main:focus{outline:none}
+.ph{font-size:1.55rem;font-weight:800;margin-bottom:.9rem}
+.lists{display:grid;gap:1rem;margin-top:1rem}
+.group h2{font-size:1.1rem;margin-bottom:.5rem;color:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);padding:1.1rem;box-shadow:var(--shadow)}
+.muted{color:var(--muted)}
+.ltr{direction:ltr;unicode-bidi:embed;display:inline-block}
+.pre{white-space:pre-wrap}
+.center{min-height:60vh;display:grid;place-items:center;text-align:center;padding:1rem}
+.err{color:var(--red);font-weight:700;min-height:1.4rem}
+:root[data-theme="dark"] .err{color:#FF8FA0}
+
+/* forms */
+.field{display:grid;gap:.3rem;margin-bottom:.85rem}
+.field label,.inline{font-weight:500}
+.field small{color:var(--muted)}
+input[type=text],input[type=email],input[type=password],input[type=date],select,textarea{width:100%;min-height:2.9rem;padding:.55rem .85rem;border:1.5px solid var(--line);border-radius:14px;background:var(--surface);color:var(--text);font:inherit;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 4px rgba(10,143,203,.15)}
+select{appearance:none;-webkit-appearance:none;padding-left:2.4rem;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%2373858f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:left .9rem center}
+input[type=email],input[type=password]{direction:ltr;text-align:right}
+textarea{resize:vertical}
+input[type=checkbox]{appearance:none;-webkit-appearance:none;width:1.7rem;height:1.7rem;border-radius:50%;border:2px solid var(--muted);background:var(--surface);display:inline-grid;place-content:center;cursor:pointer;flex:none;margin:0;transition:background .18s,border-color .18s,transform .2s var(--ease)}
+input[type=checkbox]::after{content:"";width:.45rem;height:.8rem;border:solid #fff;border-width:0 3px 3px 0;transform:rotate(45deg) scale(0);margin-top:-2px;transition:transform .2s var(--ease)}
+input[type=checkbox]:checked{background:var(--btn);border-color:var(--btn);transform:scale(1.06)}
+input[type=checkbox]:checked::after{transform:rotate(45deg) scale(1)}
+.inline{display:flex;align-items:center;gap:.6rem;margin:.4rem 0}
+.row{display:flex;gap:.6rem;align-items:flex-end;flex-wrap:wrap}
+.row .field{flex:1 1 12rem;margin-bottom:0}
+.row.end{justify-content:flex-end;align-items:center;margin-top:1rem}
+.form-card{margin-bottom:1rem}
+.btn{min-height:2.9rem;padding:.55rem 1.4rem;border:2px solid var(--btn);background:var(--btn);color:#fff;border-radius:999px;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 8px 18px -10px rgba(0,100,145,.8);transition:background .2s,transform .18s var(--ease),box-shadow .2s}
+.btn:hover{background:var(--btn-h);border-color:var(--btn-h);transform:translateY(-1px)}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.6;cursor:default;transform:none}
+.btn.sec{background:transparent;color:var(--accent);border-color:var(--accent);box-shadow:none}
+.btn.sec:hover{background:var(--soft)}
+.btn.warn{background:transparent;color:var(--red);border-color:var(--red);box-shadow:none}
+.btn.warn:hover{background:rgba(200,16,46,.08)}
+:root[data-theme="dark"] .btn.warn{color:#FF8FA0;border-color:#FF8FA0}
+.btn.sm{min-height:2.5rem;padding:.3rem 1rem;font-size:.95rem}
+.linkbtn{background:none;border:0;color:var(--accent);font:inherit;text-decoration:underline;cursor:pointer;padding:.4rem;min-height:2.75rem}
+
+/* segmented control */
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:.25rem;padding:.25rem;border-radius:999px;background:var(--soft);border:1px solid var(--line)}
+.seg button{min-height:2.7rem;border:0;border-radius:999px;background:transparent;color:var(--accent);font:inherit;font-weight:700;cursor:pointer;transition:background .22s var(--ease),color .2s,box-shadow .22s,transform .15s var(--ease)}
+.seg button:active{transform:scale(.97)}
+.seg button[aria-pressed="true"]{background:var(--btn);color:#fff;box-shadow:0 6px 14px -6px rgba(0,100,145,.75)}
+.controls{display:grid;grid-template-columns:2fr 1fr;gap:.8rem;align-items:end;margin-bottom:.9rem}
+@media (max-width:480px){.controls{grid-template-columns:1fr}}
+.rolebox{margin-bottom:1.1rem}
+
+/* progress */
+.tile{display:grid;grid-template-columns:1fr 2px 1fr;border-radius:24px;background:var(--surface);overflow:hidden;margin-bottom:.7rem;box-shadow:var(--shadow);border:1px solid var(--line)}
+.tile .half{padding:.8rem 1rem;text-align:center}
+.tile .half b{display:block;font-size:2.2rem;font-weight:800;line-height:1.1}
+.tile .half span{font-size:.95rem}
+.tile .done{background:linear-gradient(135deg,var(--head1),var(--head2));color:#fff}
+.tile .mid{background:var(--line)}
+.bar{height:.6rem;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:1.1rem}
+.bar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--brand-red),#F0475F);transition:width .45s var(--ease)}
+
+/* tasks */
+.tasks,.plain{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
+.plain{gap:.2rem;padding-inline-start:1rem;list-style:disc}
+.task{display:flex;align-items:center;gap:.4rem;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);transition:background .25s,border-color .25s,transform .15s var(--ease)}
+.task label{flex:1;display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;min-height:3.4rem;cursor:pointer}
+.task:active{transform:scale(.995)}
+.task .txt{display:grid;gap:.15rem;transition:color .25s}
+.task .txt .badge{justify-self:start}
+.task small{color:var(--muted)}
+.task.done .txt{text-decoration:line-through;color:var(--muted)}
+.task.done{background:var(--soft)}
+.del{color:var(--muted);margin-inline-end:.3rem}
+.del:hover{color:var(--red);background:rgba(200,16,46,.08)}
+
+/* chips and badges */
+.chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.4rem}
+.badge{display:inline-block;padding:.1rem .7rem;border-radius:99px;font-size:.82rem;font-weight:700;background:var(--soft);color:var(--accent);border:1px solid var(--accent)}
+.badge.red{background:var(--red);border-color:var(--red);color:#fff}
+.badge.pin{background:var(--accent);color:var(--surface)}
+.badge.warn{background:var(--warn-bg);color:var(--warn-t);border-color:var(--warn-t)}
+.meta{color:var(--muted);font-size:.9rem}
+.hl.urgent{border-inline-start:6px solid var(--red)}
+.hl.pinned{background:var(--soft)}
+.hl .row{align-items:center;margin-top:.6rem}
+.user{display:grid;gap:.4rem}
+.user .row{align-items:center}
+
+.banner{margin:.9rem 1rem 0;background:var(--warn-bg);color:var(--warn-t);border:1px solid var(--warn-t);border-radius:18px;padding:.7rem 1rem;display:flex;gap:1rem;align-items:center;justify-content:center;flex-wrap:wrap;animation:pop .25s var(--ease)}
+.banner .btn{background:var(--warn-t);border-color:var(--warn-t);color:var(--warn-bg);box-shadow:none}
+
+.auth{max-width:28rem;margin:1.5rem auto}
+.auth h1{font-size:1.5rem;margin-bottom:.8rem}
+.auth .links{display:flex;gap:.6rem;flex-wrap:wrap;margin-top:.6rem}
+
+/* dialog + toast */
+dialog{border:1px solid var(--line);border-radius:26px;background:var(--surface);color:var(--text);width:min(34rem,92vw);padding:0;box-shadow:var(--shadow-lg)}
+dialog[open]{animation:pop .22s var(--ease)}
+dialog::backdrop{background:rgba(8,24,34,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.dlg-in{padding:1.3rem}
+.dlg-in h2{margin-bottom:.6rem}
+.toast{position:fixed;inset-inline:1rem;bottom:calc(1.5rem + env(safe-area-inset-bottom));max-width:30rem;margin-inline:auto;padding:.8rem 1.2rem;border-radius:999px;background:#12232C;color:#fff;font-weight:500;text-align:center;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s,transform .25s var(--ease);z-index:50;box-shadow:var(--shadow-lg)}
+.toast.err{background:var(--red)}
+.toast.show{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<a class="skip" href="#view">דלגו לתוכן הראשי</a>
+<div id="app"></div>
+<dialog id="dlg" aria-modal="true"></dialog>
+<dialog id="drawer" class="drawer" aria-label="תפריט"></dialog>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<noscript><p style="padding:1rem">האתר דורש JavaScript כדי לעבוד. יש להפעיל אותו בדפדפן.</p></noscript>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {
+  getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, sendPasswordResetEmail, sendEmailVerification
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {
+  initializeFirestore, getFirestore, persistentLocalCache, persistentMultipleTabManager,
+  doc, setDoc, updateDoc, deleteDoc, addDoc, collection, query, orderBy, limit,
+  onSnapshot, getDocs, writeBatch
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+/* ---------- Firebase ---------- */
+const firebaseConfig = {
+  apiKey: "AIzaSyAN-r3EjazopIgenxq-85SdZryTVGuyNig",
+  authDomain: "dominos-1.firebaseapp.com",
+  projectId: "dominos-1",
+  storageBucket: "dominos-1.firebasestorage.app",
+  messagingSenderId: "346341024537",
+  appId: "1:346341024537:web:fe209b04abb8aeebeddb88"
+};
+const ADMIN_EMAIL = "sofi.blank@gav.co.il";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+let db;
+try {
+  db = initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) });
+} catch (e) {
+  db = getFirestore(app);
+}
+
+/* ---------- helpers ---------- */
+const $ = (s, r = document) => r.querySelector(s);
+const root = $("#app");
+
+function h(tag, attrs, ...kids) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v == null || v === false) continue;
+    if (k === "class") el.className = v;
+    else if (k === "html") el.innerHTML = v;
+    else if (k === "value") el.value = v;
+    else if (k === "checked") el.checked = !!v;
+    else if (k.startsWith("on") && typeof v === "function") el.addEventListener(k.slice(2), v);
+    else if (v === true) el.setAttribute(k, "");
+    else el.setAttribute(k, v);
+  }
+  for (const kid of kids.flat(Infinity)) {
+    if (kid == null || kid === false) continue;
+    el.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  }
+  return el;
+}
+
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v === null ? d : v; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, String(v)); } catch { /* ignore */ } }
+};
+
+const pad = n => String(n).padStart(2, "0");
+function todayISO() { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; }
+function fmtDate(iso) {
+  const [y, m, d] = iso.split("-").map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString("he-IL", { weekday: "long", day: "numeric", month: "long" });
+}
+function fmtTime(ts) {
+  return new Date(ts || Date.now()).toLocaleString("he-IL", { day: "numeric", month: "numeric", hour: "2-digit", minute: "2-digit" });
+}
+const uid8 = () => Math.random().toString(36).slice(2, 10);
+
+const SHIFTS = { morning: "בוקר", evening: "ערב" };
+const SHIFT_T = { morning: "משמרת בוקר", evening: "משמרת ערב", both: "כל המשמרות", any: "כל המשמרות" };
+const ROLES = { shiftLead: 'אחמ"ש', ops: 'אחמ"ש תפעול' };
+const ROLE_T = { all: "כל התפקידים", ...ROLES };
+
+function toast(msg, kind = "ok") {
+  const t = $("#toast");
+  t.textContent = msg;
+  t.className = "toast show" + (kind === "err" ? " err" : "");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => t.classList.remove("show"), 4000);
+}
+async function safe(fn, okMsg) {
+  try { await fn(); if (okMsg) toast(okMsg); }
+  catch (e) { console.error(e); toast("הפעולה נכשלה. בדקו חיבור לאינטרנט והרשאות ונסו שוב.", "err"); }
+}
+function authMsg(e) {
+  const m = {
+    "auth/invalid-email": "כתובת המייל לא תקינה.",
+    "auth/missing-password": "צריך להזין סיסמה.",
+    "auth/weak-password": "הסיסמה חלשה מדי. נדרשים לפחות 6 תווים.",
+    "auth/email-already-in-use": "כבר קיים משתמש עם המייל הזה. אפשר להתחבר או לאפס סיסמה.",
+    "auth/invalid-credential": "המייל או הסיסמה שגויים.",
+    "auth/user-not-found": "המייל או הסיסמה שגויים.",
+    "auth/wrong-password": "המייל או הסיסמה שגויים.",
+    "auth/too-many-requests": "יותר מדי ניסיונות. נסו שוב בעוד כמה דקות.",
+    "auth/network-request-failed": "אין חיבור לאינטרנט."
+  };
+  return m[e && e.code] || "משהו השתבש. נסו שוב.";
+}
+
+const badge = (txt, cls = "") => h("span", { class: "badge " + cls }, txt);
+function field(label, input) {
+  if (!input.id) input.id = "f" + uid8();
+  return h("div", { class: "field" }, h("label", { for: input.id }, label), input);
+}
+function selectEl(opts, val) {
+  return h("select", {}, opts.map(([v, l]) => h("option", { value: v, selected: v === val }, l)));
+}
+
+/* ---------- preferences: text size + theme ---------- */
+const SIZES = ["100%", "112%", "125%", "140%"];
+let sizeIdx = Number(store.get("sa_size", "0"));
+if (!(sizeIdx >= 0 && sizeIdx < SIZES.length)) sizeIdx = 0;
+function applyPrefs() {
+  document.documentElement.style.fontSize = SIZES[sizeIdx];
+  const dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  document.documentElement.dataset.theme = store.get("sa_theme", dark ? "dark" : "light");
+}
+applyPrefs();
+function bumpSize(d) { sizeIdx = Math.max(0, Math.min(SIZES.length - 1, sizeIdx + d)); store.set("sa_size", sizeIdx); applyPrefs(); }
+function toggleTheme() { const d = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; store.set("sa_theme", d); applyPrefs(); }
+const LOGO_SVG = '<svg viewBox="0 0 40 40" width="100%" height="100%" focusable="false" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#fff"/><g transform="rotate(-45 20 20)"><rect x="6" y="11" width="28" height="18" rx="4.5" fill="#E31837"/><path d="M6 15.5a4.5 4.5 0 0 1 4.5-4.5H20v18h-9.5A4.5 4.5 0 0 1 6 24.5z" fill="#006491"/><circle cx="12.5" cy="16.5" r="1.9" fill="#fff"/><circle cx="12.5" cy="23.5" r="1.9" fill="#fff"/><circle cx="27" cy="20" r="1.9" fill="#fff"/><circle cx="31" cy="16" r="0" fill="#fff"/></g></svg>';
+function logoNode(size = 40) {
+  const box = h("span", { class: "logo", style: `width:${size}px;height:${size}px`, html: LOGO_SVG });
+  const img = new Image();
+  img.alt = "";
+  img.onload = () => { img.style.cssText = "width:100%;height:100%;object-fit:contain"; box.replaceChildren(img); };
+  img.src = "logo.png";
+  return box;
+}
+
+/* ---------- dialog ---------- */
+function openDialog(title, body) {
+  const d = $("#dlg");
+  d.replaceChildren(h("form", { method: "dialog", class: "dlg-in" }, h("h2", {}, title), body));
+  d.showModal();
+  return d;
+}
+function closeDialog() { const d = $("#dlg"); if (d.open) d.close(); }
+
+/* ---------- state ---------- */
+const state = {
+  user: null, profile: null, isAdmin: false,
+  tab: store.get("sa_tab", "checklist"),
+  shift: store.get("sa_shift", new Date().getHours() < 15 ? "morning" : "evening"),
+  date: todayISO(),
+  fixed: [], personal: [], run: null, highlights: [], future: [], users: [], cfg: null,
+  hlFilter: "active", showPast: false,
+  dataOn: false, shellBuilt: false, screen: "", welcomed: false, role: null
+};
+const sess = {
+  get(k) { try { return sessionStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { sessionStorage.setItem(k, v); } catch { /* ignore */ } }
+};
+let profSub = null, dataSubs = [], runUnsub = null, current = null;
+let pendingSignup = null, creatingProfile = false;
+const carried = new Set();
+
+/* ---------- auth flow ---------- */
+onAuthStateChanged(auth, user => {
+  if (profSub) { profSub(); profSub = null; }
+  stopData();
+  state.user = user; state.profile = null; state.isAdmin = false; state.shellBuilt = false; current = null;
+  state.welcomed = !!user && sess.get("sa_w") === user.uid;
+  state.role = state.welcomed ? sess.get("sa_role") : null;
+  const dr = $("#drawer"); if (dr.open) dr.close();
+  if (!user) { showAuth("login"); return; }
+  showLoading();
+  profSub = onSnapshot(doc(db, "users", user.uid), handleProfile, e => {
+    console.error(e);
+    root.replaceChildren(h("div", { class: "center" }, h("div", {},
+      h("p", { role: "alert" }, "לא ניתן לטעון את החשבון. בדקו את חיבור האינטרנט ורעננו את הדף."),
+      h("button", { type: "button", class: "btn", onclick: () => location.reload() }, "רענון"))));
+  });
+});
+
+async function handleProfile(snap) {
+  const user = state.user;
+  if (!user) return;
+  state.isAdmin = (user.email || "").toLowerCase() === ADMIN_EMAIL && user.emailVerified;
+  if (!snap.exists()) {
+    if (creatingProfile) return;
+    creatingProfile = true;
+    const p = pendingSignup || {};
+    try {
+      await setDoc(doc(db, "users", user.uid), {
+        email: user.email,
+        name: (p.name || (user.email || "משתמש").split("@")[0]).slice(0, 40),
+        role: p.role || "shiftLead",
+        status: state.isAdmin ? "approved" : "pending",
+        createdAt: Date.now(),
+        fixedSeenAt: Date.now()
+      });
+    } catch (e) { console.error(e); toast("יצירת המשתמש נכשלה. נסו להתחבר שוב.", "err"); }
+    creatingProfile = false; pendingSignup = null;
+    return;
+  }
+  state.profile = snap.data();
+  if (state.isAdmin && state.profile.status !== "approved") {
+    try { await updateDoc(snap.ref, { status: "approved" }); } catch (e) { console.error(e); }
+  }
+  route();
+}
+
+async function refreshAdmin() {
+  try { await state.user.reload(); await state.user.getIdToken(true); }
+  catch (e) { toast("לא ניתן לרענן כרגע. נסו שוב.", "err"); return; }
+  const u = auth.currentUser; state.user = u;
+  state.isAdmin = (u.email || "").toLowerCase() === ADMIN_EMAIL && u.emailVerified;
+  if (!state.isAdmin) { toast("המייל עדיין לא אומת. לחצו על הקישור במייל ונסו שוב.", "err"); return; }
+  if (state.profile && state.profile.status !== "approved") {
+    try { await updateDoc(doc(db, "users", u.uid), { status: "approved" }); } catch (e) { console.error(e); }
+  }
+  route();
+}
+
+function route() {
+  const p = state.profile;
+  if (!p) return;
+  const member = state.isAdmin || p.status === "approved";
+  if (!member) { stopData(); showPending(p.status === "blocked"); return; }
+  startData();
+  if (!state.welcomed) { if (state.screen !== "welcome") showWelcome(); return; }
+  if (!state.shellBuilt) buildShell();
+  updateChrome();
+  if (!current) openTab(state.tab === "admin" && !state.isAdmin ? "checklist" : state.tab, false);
+}
+
+/* ---------- simple views ---------- */
+function showLoading() {
+  state.shellBuilt = false; state.screen = "loading";
+  root.replaceChildren(h("div", { class: "center" }, h("p", { role: "status" }, "טוען…")));
+}
+
+function authHeader() {
+  return h("header", { class: "top" },
+    h("div", { class: "brand" }, logoNode(), h("div", {}, h("strong", {}, "עוזר משמרת"), h("span", { class: "who" }, "כלי עבודה לאחמ\"שים במוקד"))),
+    settingsButton());
+}
+
+function showWelcome() {
+  state.shellBuilt = false; state.screen = "welcome"; current = null;
+  const name = (state.profile && state.profile.name) || "";
+  const last = store.get("sa_lastrole", "");
+  const opts = state.isAdmin ? [["shiftLead", ROLES.shiftLead], ["ops", ROLES.ops], ["all", "צפייה בהכול (מנהל/ת)"]] : Object.entries(ROLES);
+  const title = h("h1", { tabindex: "-1" }, "שלום " + name);
+  root.replaceChildren(authHeader(), h("main", { id: "view" },
+    h("section", { class: "welcome" },
+      logoNode(72), title,
+      h("p", { class: "ask" }, "איזה תפקיד תבחר/י היום?"),
+      h("div", { class: "choices", role: "group", "aria-label": "בחירת תפקיד" },
+        opts.map(([k, l]) => h("button", { type: "button", class: "choice" + (k === last ? " last" : ""), onclick: () => chooseRole(k) }, l))))));
+  title.focus({ preventScroll: true });
+}
+
+function chooseRole(k) {
+  state.role = k; state.welcomed = true; state.tab = "checklist";
+  sess.set("sa_w", state.user.uid); sess.set("sa_role", k);
+  store.set("sa_lastrole", k); store.set("sa_tab", "checklist");
+  route();
+}
+function switchRole() { state.welcomed = false; sess.set("sa_w", ""); showWelcome(); }
+
+function showAuth(mode) {
+  state.shellBuilt = false; state.screen = "auth";
+  const err = h("p", { class: "err", role: "alert" });
+  const name = h("input", { type: "text", autocomplete: "name", maxlength: "40" });
+  const email = h("input", { type: "email", autocomplete: "email" });
+  const pw = h("input", { type: "password", autocomplete: mode === "signup" ? "new-password" : "current-password" });
+  const titles = { login: "כניסה", signup: "יצירת משתמש", reset: "איפוס סיסמה" };
+  const submitLbl = { login: "כניסה", signup: "יצירת משתמש", reset: "שליחת מייל לאיפוס" };
+  const form = h("form", {
+    class: "card auth", novalidate: true,
+    onsubmit: async e => {
+      e.preventDefault();
+      err.textContent = "";
+      const btn = form.querySelector("button[type=submit]");
+      if (!email.value.trim()) { err.textContent = "צריך להזין כתובת מייל."; email.focus(); return; }
+      btn.disabled = true;
+      try {
+        if (mode === "reset") {
+          await sendPasswordResetEmail(auth, email.value.trim());
+          toast("נשלח מייל לאיפוס הסיסמה. כדאי לבדוק גם בתיקיית הספאם.");
+          showAuth("login");
+          return;
+        }
+        if (mode === "signup") {
+          if (!name.value.trim()) { err.textContent = "צריך להזין שם."; name.focus(); btn.disabled = false; return; }
+          pendingSignup = { name: name.value.trim(), role: "shiftLead" };
+          const c = await createUserWithEmailAndPassword(auth, email.value.trim(), pw.value);
+          sendEmailVerification(c.user).catch(() => {});
+        } else {
+          await signInWithEmailAndPassword(auth, email.value.trim(), pw.value);
+        }
+      } catch (ex) {
+        pendingSignup = null;
+        err.textContent = authMsg(ex);
+      } finally { btn.disabled = false; }
+    }
+  },
+    h("h1", {}, titles[mode]),
+    mode === "signup" && field("שם מלא", name),
+    field("כתובת מייל", email),
+    mode !== "reset" && field("סיסמה", pw),
+    err,
+    h("button", { type: "submit", class: "btn" }, submitLbl[mode]),
+    h("div", { class: "links" },
+      mode !== "login" && h("button", { type: "button", class: "linkbtn", onclick: () => showAuth("login") }, "כבר יש לי משתמש"),
+      mode !== "signup" && h("button", { type: "button", class: "linkbtn", onclick: () => showAuth("signup") }, "יצירת משתמש חדש"),
+      mode === "login" && h("button", { type: "button", class: "linkbtn", onclick: () => showAuth("reset") }, "שכחתי סיסמה")),
+    mode === "signup" && h("p", { class: "muted" }, "אחרי ההרשמה יש להמתין לאישור של מנהל/ת האתר לפני הכניסה לתוכן.")
+  );
+  root.replaceChildren(authHeader(), h("main", { id: "view", tabindex: "-1" }, form));
+}
+
+function showPending(blocked) {
+  state.shellBuilt = false; state.screen = "pending"; current = null;
+  const u = state.user;
+  const adminUnverified = (u.email || "").toLowerCase() === ADMIN_EMAIL && !u.emailVerified;
+  const card = h("div", { class: "card auth" },
+    h("h1", {}, blocked ? "הגישה לחשבון נחסמה" : "החשבון ממתין לאישור"),
+    h("p", {}, blocked ? "לפרטים אפשר לפנות למנהל/ת האתר." : "ההרשמה הצליחה. מנהל/ת האתר צריך/ה לאשר את הכניסה. הדף יתעדכן אוטומטית כשהחשבון יאושר."),
+    adminUnverified && h("div", {},
+      h("p", {}, "זו כתובת המייל של מנהל/ת האתר. כדי לקבל הרשאות ניהול יש לאמת אותה: פתחו את המייל שנשלח אליכם, לחצו על הקישור, ואז לחצו כאן."),
+      h("div", { class: "row" },
+        h("button", { type: "button", class: "btn", onclick: refreshAdmin }, "אימתתי את המייל"),
+        h("button", { type: "button", class: "btn sec", onclick: () => safe(() => sendEmailVerification(auth.currentUser), "מייל האימות נשלח שוב") }, "שליחה מחדש"))),
+    h("div", { class: "row end" }, h("button", { type: "button", class: "btn sec", onclick: () => signOut(auth) }, "יציאה")));
+  root.replaceChildren(authHeader(), h("main", { id: "view", tabindex: "-1" }, card));
+}
+
+/* ---------- drawers ---------- */
+const ICON_MENU = '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+
+function openDrawer(side, title, items) {
+  const d = $("#drawer");
+  d.dataset.side = side;
+  d.replaceChildren(h("div", { class: "drawer-in" },
+    h("div", { class: "drawer-head" }, h("strong", {}, title),
+      h("button", { type: "button", class: "icon", "aria-label": "סגירה", onclick: () => d.close() }, "✕")),
+    items.map(it => it.sep ? h("div", { class: "dr-sep", role: "separator" }) :
+      h("button", {
+        type: "button", class: "dr-item" + (it.danger ? " danger" : ""), "aria-current": it.current ? "page" : null,
+        onclick: () => { if (!it.keep) d.close(); it.run(); }
+      }, it.label, it.badge > 0 ? h("span", { class: "count" }, String(it.badge)) : null))));
+  d.showModal();
+}
+$("#drawer").addEventListener("click", e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+
+const TABS = [["checklist", "צ'ק ליסט"], ["highlights", "דגשים"], ["fixed", "משימות קבועות"], ["future", "עתידיות"], ["admin", "ניהול"]];
+
+function navBadges() {
+  return { highlights: unreadCount(), admin: state.isAdmin ? state.users.filter(u => u.status === "pending").length : 0 };
+}
+function openNav() {
+  const b = navBadges();
+  openDrawer("nav", "עמודים", TABS.filter(([k]) => k !== "admin" || state.isAdmin).map(([k, label]) =>
+    ({ label, current: state.tab === k, badge: b[k] || 0, run: () => openTab(k, true) })));
+}
+function openSettings() {
+  const dark = document.documentElement.dataset.theme === "dark";
+  const items = [
+    { label: dark ? "מצב בהיר" : "מצב כהה", run: toggleTheme },
+    { label: "הגדלת טקסט", run: () => bumpSize(1), keep: true },
+    { label: "הקטנת טקסט", run: () => bumpSize(-1), keep: true }
+  ];
+  if (state.user && state.welcomed && state.profile) items.push({ label: "החלפת תפקיד", run: switchRole });
+  if (state.user) { items.push({ sep: true }); items.push({ label: "יציאה", danger: true, run: () => signOut(auth) }); }
+  openDrawer("settings", "הגדרות", items);
+}
+function settingsButton() {
+  return h("button", { type: "button", class: "icon menu", "aria-label": "הגדרות ויציאה", "aria-haspopup": "dialog", onclick: openSettings }, h("span", { html: ICON_MENU }));
+}
+
+/* ---------- shell ---------- */
+function buildShell() {
+  state.shellBuilt = true; state.screen = "app"; current = null;
+  root.replaceChildren(
+    h("header", { class: "top" },
+      h("div", { class: "brand" },
+        h("button", { type: "button", class: "icon menu", id: "navbtn", "aria-label": "תפריט ניווט", "aria-haspopup": "dialog", onclick: openNav },
+          h("span", { html: ICON_MENU }), h("span", { class: "dot", id: "navdot", hidden: true })),
+        logoNode(),
+        h("div", {}, h("strong", {}, "עוזר משמרת"), h("span", { class: "who", id: "who" }))),
+      settingsButton()),
+    h("div", { id: "banner" }),
+    h("main", { id: "view", tabindex: "-1" }));
+}
+
+function unreadCount() {
+  const uid = state.user.uid;
+  return state.highlights.filter(x => !x.resolved && x.authorUid !== uid && !(x.ackBy && x.ackBy[uid])).length;
+}
+
+function updateChrome() {
+  if (!state.shellBuilt || !state.profile) return;
+  $("#who").textContent = (state.profile.name || "") + " · " + roleLabel();
+  const b = navBadges(), n = b.highlights + b.admin;
+  $("#navdot").hidden = !(n > 0);
+  $("#navbtn").setAttribute("aria-label", n > 0 ? `תפריט ניווט, ${n} חדשים` : "תפריט ניווט");
+
+  const bn = $("#banner");
+  const upd = (state.cfg && state.cfg.updatedAt) || 0;
+  const seen = state.profile.fixedSeenAt || 0;
+  const key = (!state.isAdmin && upd > seen) ? String(upd) : "";
+  if (bn.dataset.k !== key) {
+    bn.dataset.k = key;
+    if (key) {
+      bn.replaceChildren(h("div", { class: "banner", role: "status" },
+        h("span", {}, "עודכנו המשימות הקבועות" + (state.cfg.summary ? ": " + state.cfg.summary : "")),
+        h("button", { type: "button", class: "btn sm", onclick: () => safe(() => updateDoc(doc(db, "users", state.user.uid), { fixedSeenAt: Date.now() })) }, "הבנתי")));
+    } else bn.replaceChildren();
+  }
+}
+
+function openTab(name, userAction) {
+  if (name === "admin" && !state.isAdmin) name = "checklist";
+  state.tab = name; store.set("sa_tab", name);
+  const impl = { checklist: checklistTab, highlights: highlightsTab, fixed: fixedTab, future: futureTab, admin: adminTab }[name];
+  current = impl();
+  $("#view").replaceChildren(current.node);
+  if (current.update) current.update();
+  updateChrome();
+  if (userAction) $("#view").focus({ preventScroll: true });
+}
+
+function refresh() {
+  if (current && current.update) current.update();
+  updateChrome();
+}
+
+/* ---------- data subscriptions ---------- */
+function errH(e) { console.error(e); toast("שגיאת חיבור או הרשאה. נסו לרענן את הדף.", "err"); }
+function dsub(u) { dataSubs.push(u); }
+const rows = s => s.docs.map(d => ({ id: d.id, ...d.data() }));
+
+function startData() {
+  if (state.dataOn) return;
+  state.dataOn = true;
+  const uid = state.user.uid;
+  dsub(onSnapshot(collection(db, "fixedTasks"), s => { state.fixed = rows(s).sort((a, b) => (a.order || 0) - (b.order || 0)); refresh(); }, errH));
+  dsub(onSnapshot(doc(db, "config", "fixed"), s => { state.cfg = s.exists() ? s.data() : null; updateChrome(); }, errH));
+  dsub(onSnapshot(collection(db, "users", uid, "personalTasks"), s => { state.personal = rows(s).sort((a, b) => (a.createdAt || 0) - (b.createdAt || 0)); refresh(); }, errH));
+  dsub(onSnapshot(query(collection(db, "highlights"), orderBy("createdAt", "desc"), limit(100)), s => { state.highlights = rows(s); refresh(); }, errH));
+  dsub(onSnapshot(collection(db, "future"), s => { state.future = rows(s); refresh(); }, errH));
+  if (state.isAdmin) dsub(onSnapshot(collection(db, "users"), s => { state.users = rows(s); refresh(); }, errH));
+  subscribeRun();
+}
+function stopData() {
+  dataSubs.forEach(u => u()); dataSubs = [];
+  if (runUnsub) { runUnsub(); runUnsub = null; }
+  state.dataOn = false; state.run = null;
+}
+
+const runId = () => `${state.date}_${state.shift}`;
+const runRef = () => doc(db, "users", state.user.uid, "runs", runId());
+
+function subscribeRun() {
+  if (runUnsub) { runUnsub(); runUnsub = null; }
+  state.run = null;
+  const id = runId(), ref = runRef();
+  runUnsub = onSnapshot(ref, async s => {
+    if (!s.exists()) {
+      state.run = { done: {}, oneTime: [] };
+      refresh();
+      if (!carried.has(id)) {
+        carried.add(id);
+        try {
+          const c = await findCarry();
+          if (c.length) await setDoc(ref, { date: state.date, shift: state.shift, done: {}, oneTime: c }, { merge: true });
+        } catch (e) { console.error(e); }
+      }
+      return;
+    }
+    const r = s.data();
+    state.run = { ...r, done: r.done || {}, oneTime: r.oneTime || [] };
+    refresh();
+  }, errH);
+}
+
+async function findCarry() {
+  const q = query(collection(db, "users", state.user.uid, "runs"), orderBy("date", "desc"), limit(14));
+  const s = await getDocs(q);
+  for (const d of s.docs) {
+    const r = d.data();
+    if (r.shift === state.shift && r.date < state.date) {
+      return (r.oneTime || []).filter(t => !t.done).map(t => ({ id: uid8(), title: t.title, done: false, carried: true }));
+    }
+  }
+  return [];
+}
+
+async function saveRun(patch) {
+  await safe(() => setDoc(runRef(), { date: state.date, shift: state.shift, ...patch }, { merge: true }));
+}
+
+/* ---------- checklist ---------- */
+function currentRole() {
+  const valid = state.isAdmin ? ["all", "shiftLead", "ops"] : ["shiftLead", "ops"];
+  return valid.includes(state.role) ? state.role : (state.isAdmin ? "all" : "shiftLead");
+}
+function roleLabel() {
+  const r = currentRole();
+  if (state.isAdmin) return r === "all" ? "מנהל/ת" : "מנהל/ת, " + ROLES[r];
+  return ROLES[r];
+}
+
+function checklistItems() {
+  const s = state.shift, role = currentRole(), out = [];
+  state.fixed.filter(t => (t.shift === "both" || t.shift === s) && (role === "all" || t.role === "all" || t.role === role))
+    .forEach(t => out.push({ key: "f_" + t.id, title: t.title, kind: "fixed", role: t.role }));
+  state.personal.filter(t => t.shift === "both" || t.shift === s)
+    .forEach(t => out.push({ key: "p_" + t.id, title: t.title, kind: "personal" }));
+  state.future.filter(t => t.date === state.date && (t.shift === "both" || t.shift === s))
+    .forEach(t => out.push({ key: "u_" + t.id, title: t.title, kind: "future", note: t.notes }));
+  ((state.run && state.run.oneTime) || []).forEach(t => out.push({ key: "o_" + t.id, id: t.id, title: t.title, kind: "one", done: t.done, carried: t.carried }));
+  return out;
+}
+const isDone = i => i.kind === "one" ? !!i.done : !!(state.run && state.run.done[i.key]);
+
+function toggleItem(item, val) {
+  if (!state.run) return;
+  if (item.kind === "one") saveRun({ oneTime: state.run.oneTime.map(t => t.id === item.id ? { ...t, done: val } : t) });
+  else saveRun({ done: { [item.key]: val } });
+}
+
+function checklistTab() {
+  const doneNum = h("b", {}, "0"), leftNum = h("b", {}, "0");
+  const bar = h("i", {});
+  const barWrap = h("div", { class: "bar", role: "progressbar", "aria-label": "התקדמות במשמרת", "aria-valuemin": "0", "aria-valuemax": "100", "aria-valuenow": "0" }, bar);
+  const tile = h("div", { class: "tile" },
+    h("div", { class: "half done" }, doneNum, h("span", {}, "בוצעו")),
+    h("div", { class: "mid" }),
+    h("div", { class: "half" }, leftNum, h("span", {}, "נשארו")));
+  const list = h("div", { class: "lists" });
+
+  const seg = h("div", { class: "seg", role: "group", "aria-label": "בחירת משמרת" },
+    ["morning", "evening"].map(k => h("button", {
+      type: "button", "aria-pressed": String(state.shift === k),
+      onclick: () => { state.shift = k; store.set("sa_shift", k); subscribeRun(); openTab("checklist", false); }
+    }, SHIFT_T[k])));
+  const dateIn = h("input", {
+    type: "date", value: state.date,
+    onchange: e => { state.date = e.target.value || todayISO(); subscribeRun(); openTab("checklist", false); }
+  });
+
+  const oneIn = h("input", { type: "text", maxlength: "120", autocomplete: "off" });
+  const addForm = h("form", {
+    class: "card form-card row",
+    onsubmit: e => {
+      e.preventDefault();
+      const t = oneIn.value.trim();
+      if (!t || !state.run) return;
+      oneIn.value = "";
+      saveRun({ oneTime: [...state.run.oneTime, { id: uid8(), title: t, done: false }] });
+    }
+  }, field("משימה חד־פעמית למשמרת הזו", oneIn), h("button", { type: "submit", class: "btn" }, "הוספה"));
+
+  const node = h("section", {},
+    h("h1", { class: "ph" }, "צ'ק ליסט משמרת"),
+    h("p", { class: "meta" }, "תפקיד היום: " + roleLabel()),
+    h("div", { class: "controls" }, h("div", {}, h("p", { class: "meta" }, "משמרת"), seg), field("תאריך", dateIn)),
+    tile, barWrap, list, addForm,
+    h("div", { class: "row end" }, h("button", { type: "button", class: "btn sec", onclick: openEndShift }, "סיום משמרת וסיכום")));
+
+  function taskLi(item) {
+    const d = isDone(item);
+    return h("li", { class: "task" + (d ? " done" : "") },
+      h("label", {},
+        h("input", { type: "checkbox", checked: d, "data-key": item.key, onchange: e => toggleItem(item, e.target.checked) }),
+        h("span", { class: "txt" }, item.title, item.note ? h("small", {}, item.note) : null, (item.kind === "fixed" && currentRole() === "all" && item.role !== "all") ? badge(ROLES[item.role]) : null, item.carried ? badge("הועברה ממשמרת קודמת", "warn") : null)),
+      item.kind === "one" ? h("button", {
+        type: "button", class: "icon del", "aria-label": "מחיקת המשימה " + item.title,
+        onclick: () => saveRun({ oneTime: state.run.oneTime.filter(t => t.id !== item.id) })
+      }, "✕") : null);
+  }
+
+  function update() {
+    if (!state.run) { list.replaceChildren(h("p", { class: "muted" }, "טוען…")); return; }
+    const active = document.activeElement;
+    const focusKey = active && active.dataset ? active.dataset.key : null;
+    const items = checklistItems();
+    const done = items.filter(isDone).length, total = items.length;
+    doneNum.textContent = done; leftNum.textContent = total - done;
+    const pct = total ? Math.round(done / total * 100) : 0;
+    bar.style.width = pct + "%";
+    barWrap.setAttribute("aria-valuenow", String(pct));
+    const groups = [["fixed", "משימות קבועות"], ["personal", "המשימות הקבועות שלי"], ["future", "מתוכנן ליום הזה"], ["one", "חד־פעמיות"]];
+    const parts = [];
+    for (const [kind, title] of groups) {
+      const its = items.filter(i => i.kind === kind);
+      if (its.length) parts.push(h("section", { class: "group" }, h("h2", {}, title), h("ul", { class: "tasks" }, its.map(i => taskLi(i)))));
+    }
+    if (!items.length) parts.push(h("div", { class: "card" }, h("p", {}, "עדיין אין משימות ל" + SHIFT_T[state.shift] + ". המשימות הקבועות מוגדרות בעמוד \"קבועות\", ואפשר להוסיף כאן משימה חד־פעמית.")));
+    list.replaceChildren(...parts);
+    if (focusKey) { const n = list.querySelector(`[data-key="${CSS.escape(focusKey)}"]`); if (n) n.focus(); }
+  }
+  return { node, update };
+}
+
+function openEndShift() {
+  const items = checklistItems();
+  const un = items.filter(i => !isDone(i));
+  const done = items.length - un.length;
+  const note = h("textarea", { rows: "3", maxlength: "500" });
+  const post = h("input", { type: "checkbox", checked: true });
+  const other = state.shift === "morning" ? "evening" : "morning";
+  openDialog("סיום משמרת", h("div", {},
+    h("p", {}, `בוצעו ${done} מתוך ${items.length} משימות.`),
+    un.length > 0
+      ? h("div", {}, h("p", {}, "משימות שלא בוצעו:"), h("ul", { class: "plain" }, un.map(t => h("li", {}, t.title))))
+      : h("p", {}, "כל המשימות בוצעו."),
+    un.some(t => t.kind === "one") ? h("p", { class: "meta" }, "משימות חד־פעמיות שלא בוצעו יופיעו אצלכם אוטומטית בפעם הבאה שתפתחו את משמרת " + SHIFTS[state.shift] + ".") : null,
+    field("הערה למשמרת הבאה (לא חובה)", note),
+    h("label", { class: "inline" }, post, "פרסום הסיכום כדגש ל" + SHIFT_T[other]),
+    h("div", { class: "row end" },
+      h("button", {
+        type: "button", class: "btn",
+        onclick: async () => {
+          await safe(async () => {
+            if (post.checked) {
+              const lines = [`סיכום ${SHIFT_T[state.shift]}, ${fmtDate(state.date)}`, `בוצעו ${done} מתוך ${items.length} משימות.`];
+              if (un.length) { lines.push("לא בוצעו:"); un.forEach(t => lines.push("• " + t.title)); }
+              if (note.value.trim()) lines.push("הערה: " + note.value.trim());
+              await addDoc(collection(db, "highlights"), {
+                text: lines.join("\n"), authorUid: state.user.uid, authorName: state.profile.name,
+                target: other, urgent: false, pinned: false, resolved: false, kind: "handover",
+                date: state.date, createdAt: Date.now(), ackBy: {}
+              });
+            }
+            await setDoc(runRef(), { date: state.date, shift: state.shift, closedAt: Date.now() }, { merge: true });
+          }, post.checked ? "המשמרת הסתיימה והסיכום פורסם" : "המשמרת הסתיימה");
+          closeDialog();
+        }
+      }, "סיום משמרת"),
+      h("button", { class: "btn sec", value: "cancel" }, "ביטול"))));
+}
+
+/* ---------- highlights ---------- */
+function highlightsTab() {
+  const text = h("textarea", { rows: "3", maxlength: "600" });
+  const target = selectEl([["any", "כל המשמרות"], ["morning", "משמרת בוקר"], ["evening", "משמרת ערב"]], state.shift === "morning" ? "evening" : "morning");
+  const urgent = h("input", { type: "checkbox" });
+  const pin = h("input", { type: "checkbox" });
+  const list = h("div", { class: "lists" });
+  const filterBtns = [["active", "פעילים"], ["resolved", "טופלו"]].map(([k, l]) =>
+    h("button", { type: "button", "data-f": k, onclick: () => { state.hlFilter = k; update(); } }, l));
+  const seg = h("div", { class: "seg", role: "group", "aria-label": "סינון דגשים" }, filterBtns);
+
+  const form = h("form", {
+    class: "card form-card",
+    onsubmit: e => {
+      e.preventDefault();
+      const t = text.value.trim();
+      if (!t) { text.focus(); return; }
+      safe(async () => {
+        await addDoc(collection(db, "highlights"), {
+          text: t, authorUid: state.user.uid, authorName: state.profile.name,
+          target: target.value, urgent: urgent.checked, pinned: pin.checked, resolved: false,
+          kind: "note", date: todayISO(), createdAt: Date.now(), ackBy: {}
+        });
+        text.value = ""; urgent.checked = false; pin.checked = false;
+      }, "הדגש פורסם");
+    }
+  },
+    field("דגש חדש", text),
+    field("למי הדגש מיועד", target),
+    h("label", { class: "inline" }, urgent, "דחוף"),
+    h("label", { class: "inline" }, pin, "נעיצה בראש הרשימה"),
+    h("div", { class: "row end" }, h("button", { type: "submit", class: "btn" }, "פרסום דגש")));
+
+  const node = h("section", {}, h("h1", { class: "ph" }, "דגשים והעברת משמרת"), form, seg, list);
+
+  function card(x) {
+    const uid = state.user.uid, mine = x.authorUid === uid, can = mine || state.isAdmin;
+    const acked = !!(x.ackBy && x.ackBy[uid]);
+    const readers = Object.values(x.ackBy || {});
+    const ref = doc(db, "highlights", x.id);
+    return h("article", { class: "card hl" + (x.urgent ? " urgent" : "") + (x.pinned ? " pinned" : "") },
+      h("div", { class: "chips" },
+        x.pinned ? badge("נעוץ", "pin") : null, x.urgent ? badge("דחוף", "red") : null,
+        badge(SHIFT_T[x.target] || SHIFT_T.any), x.kind === "handover" ? badge("סיכום משמרת") : null),
+      h("p", { class: "pre" }, x.text),
+      h("p", { class: "meta" }, `מאת ${x.authorName || "משתמש"}, ${fmtTime(x.createdAt)}`),
+      readers.length > 0 ? h("p", { class: "meta" }, "נקרא על ידי: " + readers.join(", ")) : null,
+      h("div", { class: "row" },
+        (!acked && !mine && !x.resolved) ? h("button", { type: "button", class: "btn sm", onclick: () => safe(() => updateDoc(ref, { ["ackBy." + uid]: state.profile.name })) }, "קראתי") : null,
+        can ? h("button", { type: "button", class: "btn sm sec", onclick: () => safe(() => updateDoc(ref, { pinned: !x.pinned })) }, x.pinned ? "ביטול נעיצה" : "נעיצה") : null,
+        can ? h("button", { type: "button", class: "btn sm sec", onclick: () => safe(() => updateDoc(ref, { resolved: !x.resolved })) }, x.resolved ? "החזרה לפעילים" : "סימון כטופל") : null,
+        can ? h("button", { type: "button", class: "btn sm warn", onclick: () => { if (confirm("למחוק את הדגש?")) safe(() => deleteDoc(ref), "הדגש נמחק"); } }, "מחיקה") : null));
+  }
+
+  function update() {
+    filterBtns.forEach(b => b.setAttribute("aria-pressed", String(b.dataset.f === state.hlFilter)));
+    const want = state.hlFilter === "resolved";
+    const items = state.highlights.filter(x => !!x.resolved === want)
+      .sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || (b.createdAt || 0) - (a.createdAt || 0));
+    list.replaceChildren(...(items.length ? items.map(card) : [h("div", { class: "card" }, h("p", {}, want ? "אין דגשים שטופלו." : "אין דגשים פעילים כרגע."))]));
+  }
+  return { node, update };
+}
+
+/* ---------- fixed tasks ---------- */
+const touchFixed = summary => setDoc(doc(db, "config", "fixed"), { updatedAt: Date.now(), summary });
+
+function openEditFixed(t) {
+  const title = h("input", { type: "text", maxlength: "120", value: t.title });
+  const shift = selectEl([["both", "כל המשמרות"], ["morning", "משמרת בוקר"], ["evening", "משמרת ערב"]], t.shift);
+  const role = selectEl(Object.entries(ROLE_T), t.role);
+  openDialog("עריכת משימה קבועה", h("div", {},
+    field("שם המשימה", title), field("משמרת", shift), field("תפקיד", role),
+    h("div", { class: "row end" },
+      h("button", {
+        type: "button", class: "btn",
+        onclick: async () => {
+          const v = title.value.trim();
+          if (!v) { title.focus(); return; }
+          await safe(async () => {
+            await updateDoc(doc(db, "fixedTasks", t.id), { title: v, shift: shift.value, role: role.value });
+            await touchFixed("עודכנה משימה: " + v);
+          }, "המשימה עודכנה");
+          closeDialog();
+        }
+      }, "שמירה"),
+      h("button", { class: "btn sec", value: "cancel" }, "ביטול"))));
+}
+
+function fixedTab() {
+  const sharedList = h("div", { class: "lists" });
+  const personalList = h("div", { class: "lists" });
+  const parts = [h("h1", { class: "ph" }, "משימות קבועות")];
+
+  if (state.isAdmin) {
+    const title = h("input", { type: "text", maxlength: "120" });
+    const shift = selectEl([["both", "כל המשמרות"], ["morning", "משמרת בוקר"], ["evening", "משמרת ערב"]], "both");
+    const role = selectEl(Object.entries(ROLE_T), "all");
+    parts.push(h("form", {
+      class: "card form-card",
+      onsubmit: e => {
+        e.preventDefault();
+        const v = title.value.trim();
+        if (!v) { title.focus(); return; }
+        safe(async () => {
+          await addDoc(collection(db, "fixedTasks"), { title: v, shift: shift.value, role: role.value, order: Date.now(), createdAt: Date.now() });
+          await touchFixed("נוספה משימה: " + v);
+          title.value = "";
+        }, "המשימה נוספה לכולם");
+      }
+    },
+      h("h2", {}, "הוספת משימה קבועה לכולם"),
+      field("שם המשימה", title), field("משמרת", shift), field("תפקיד", role),
+      h("div", { class: "row end" }, h("button", { type: "submit", class: "btn" }, "הוספה"))));
+  } else {
+    parts.push(h("p", { class: "muted" }, "המשימות המשותפות מוגדרות על ידי מנהל/ת האתר ומופיעות אצל כולם."));
+  }
+  parts.push(sharedList);
+
+  const ptitle = h("input", { type: "text", maxlength: "120" });
+  const pshift = selectEl([["both", "כל המשמרות"], ["morning", "משמרת בוקר"], ["evening", "משמרת ערב"]], "both");
+  parts.push(h("h1", { class: "ph" }, "המשימות הקבועות שלי"),
+    h("p", { class: "muted" }, "משימות שרק אתם רואים, ומופיעות בצ'ק ליסט שלכם."),
+    h("form", {
+      class: "card form-card",
+      onsubmit: e => {
+        e.preventDefault();
+        const v = ptitle.value.trim();
+        if (!v) { ptitle.focus(); return; }
+        safe(async () => {
+          await addDoc(collection(db, "users", state.user.uid, "personalTasks"), { title: v, shift: pshift.value, createdAt: Date.now() });
+          ptitle.value = "";
+        }, "המשימה נוספה");
+      }
+    }, field("שם המשימה", ptitle), field("משמרת", pshift), h("div", { class: "row end" }, h("button", { type: "submit", class: "btn" }, "הוספה"))),
+    personalList);
+
+  const node = h("section", {}, parts);
+
+  async function move(group, idx, dir) {
+    const a = group[idx], b = group[idx + dir];
+    if (!b) return;
+    await safe(async () => {
+      const batch = writeBatch(db);
+      batch.update(doc(db, "fixedTasks", a.id), { order: b.order || 0 });
+      batch.update(doc(db, "fixedTasks", b.id), { order: a.order || 0 });
+      await batch.commit();
+    });
+  }
+
+  function update() {
+    const groups = [["both", "כל המשמרות"], ["morning", "משמרת בוקר"], ["evening", "משמרת ערב"]];
+    const out = [];
+    for (const [k, label] of groups) {
+      const group = state.fixed.filter(t => t.shift === k);
+      if (!group.length) continue;
+      out.push(h("section", { class: "group" }, h("h2", {}, label), h("ul", { class: "tasks" }, group.map((t, i) =>
+        h("li", { class: "task" },
+          h("div", { class: "txt", style: "flex:1;padding:.75rem .8rem" }, t.title, h("div", { class: "chips" }, badge(ROLE_T[t.role] || ROLE_T.all))),
+          state.isAdmin ? h("div", { class: "row", style: "padding:.4rem;align-items:center" },
+            h("button", { type: "button", class: "icon del", "aria-label": "הזזה למעלה: " + t.title, disabled: i === 0, onclick: () => move(group, i, -1) }, "↑"),
+            h("button", { type: "button", class: "icon del", "aria-label": "הזזה למטה: " + t.title, disabled: i === group.length - 1, onclick: () => move(group, i, 1) }, "↓"),
+            h("button", { type: "button", class: "btn sm sec", "aria-label": "עריכת " + t.title, onclick: () => openEditFixed(t) }, "עריכה"),
+            h("button", {
+              type: "button", class: "btn sm warn", "aria-label": "מחיקת " + t.title,
+              onclick: () => { if (confirm("למחוק את המשימה הקבועה לכולם?")) safe(async () => { await deleteDoc(doc(db, "fixedTasks", t.id)); await touchFixed("הוסרה משימה: " + t.title); }, "המשימה נמחקה"); }
+            }, "מחיקה")) : null)))));
+    }
+    if (!out.length) out.push(h("div", { class: "card" }, h("p", {}, "עדיין לא הוגדרו משימות קבועות משותפות.")));
+    sharedList.replaceChildren(...out);
+
+    const mine = state.personal;
+    personalList.replaceChildren(...(mine.length
+      ? [h("ul", { class: "tasks" }, mine.map(t => h("li", { class: "task" },
+          h("div", { class: "txt", style: "flex:1;padding:.75rem .8rem" }, t.title, h("div", { class: "chips" }, badge(SHIFT_T[t.shift] || SHIFT_T.both))),
+          h("button", {
+            type: "button", class: "icon del", "aria-label": "מחיקת המשימה " + t.title,
+            onclick: () => { if (confirm("למחוק את המשימה?")) safe(() => deleteDoc(doc(db, "users", state.user.uid, "personalTasks", t.id))); }
+          }, "✕"))))]
+      : [h("div", { class: "card" }, h("p", {}, "עדיין אין לכם משימות קבועות אישיות."))]));
+  }
+  return { node, update };
+}
+
+/* ---------- future tasks ---------- */
+function futureTab() {
+  const title = h("input", { type: "text", maxlength: "120" });
+  const date = h("input", { type: "date", value: state.date });
+  const shift = selectEl([["both", "כל המשמרות"], ["morning", "משמרת בוקר"], ["evening", "משמרת ערב"]], "both");
+  const notes = h("input", { type: "text", maxlength: "200" });
+  const list = h("div", { class: "lists" });
+  const togglePast = h("button", { type: "button", class: "btn sec", onclick: () => { state.showPast = !state.showPast; update(); } });
+
+  const form = h("form", {
+    class: "card form-card",
+    onsubmit: e => {
+      e.preventDefault();
+      const v = title.value.trim();
+      if (!v) { title.focus(); return; }
+      if (!date.value) { date.focus(); return; }
+      safe(async () => {
+        await addDoc(collection(db, "future"), {
+          title: v, date: date.value, shift: shift.value, notes: notes.value.trim(),
+          createdBy: state.user.uid, createdByName: state.profile.name, createdAt: Date.now()
+        });
+        title.value = ""; notes.value = "";
+      }, "המשימה העתידית נשמרה");
+    }
+  },
+    field("מה צריך לעשות", title), field("תאריך", date), field("משמרת", shift), field("הערה (לא חובה)", notes),
+    h("div", { class: "row end" }, h("button", { type: "submit", class: "btn" }, "שמירה")));
+
+  const node = h("section", {}, h("h1", { class: "ph" }, "משימות עתידיות"),
+    h("p", { class: "muted" }, "משימה שנשמרה כאן תופיע אוטומטית בצ'ק ליסט של היום המתאים."), form, list);
+
+  function card(x) {
+    const can = x.createdBy === state.user.uid || state.isAdmin;
+    return h("article", { class: "card" },
+      h("div", { class: "chips" }, x.date === todayISO() ? badge("היום", "pin") : null, badge(SHIFT_T[x.shift] || SHIFT_T.both)),
+      h("strong", {}, fmtDate(x.date)),
+      h("p", {}, x.title),
+      x.notes ? h("p", { class: "meta" }, x.notes) : null,
+      h("p", { class: "meta" }, "נוסף על ידי " + (x.createdByName || "משתמש")),
+      can ? h("div", { class: "row", style: "margin-top:.5rem" },
+        h("button", { type: "button", class: "btn sm warn", onclick: () => { if (confirm("למחוק את המשימה העתידית?")) safe(() => deleteDoc(doc(db, "future", x.id)), "המשימה נמחקה"); } }, "מחיקה")) : null);
+  }
+
+  function update() {
+    const today = todayISO();
+    const up = state.future.filter(f => f.date >= today).sort((a, b) => a.date.localeCompare(b.date) || (a.createdAt || 0) - (b.createdAt || 0));
+    const past = state.future.filter(f => f.date < today).sort((a, b) => b.date.localeCompare(a.date));
+    togglePast.textContent = state.showPast ? "הסתרת משימות שעברו" : `הצגת משימות שעברו (${past.length})`;
+    const parts = [h("section", { class: "group" }, h("h2", {}, "קרובות"),
+      up.length ? h("div", { class: "lists", style: "margin-top:.4rem" }, up.map(card)) : h("div", { class: "card" }, h("p", {}, "אין משימות עתידיות שמורות.")))];
+    if (past.length) parts.push(togglePast);
+    if (state.showPast) parts.push(h("section", { class: "group" }, h("h2", {}, "עברו"), h("div", { class: "lists", style: "margin-top:.4rem" }, past.map(card))));
+    list.replaceChildren(...parts);
+  }
+  return { node, update };
+}
+
+/* ---------- admin ---------- */
+function adminTab() {
+  const list = h("div", { class: "lists" });
+  const node = h("section", {}, h("h1", { class: "ph" }, "ניהול משתמשים"),
+    h("p", { class: "muted" }, "משתמשים חדשים נשארים ממתינים עד שתאשרו אותם. כדי למחוק חשבון לגמרי יש למחוק אותו גם ב-Firebase, תחת Authentication."),
+    list);
+
+  function userCard(u) {
+    const self = u.id === state.user.uid;
+    const ref = doc(db, "users", u.id);
+    return h("article", { class: "card user" },
+      h("strong", {}, u.name || "ללא שם", self ? " (אתם)" : ""),
+      h("span", { class: "ltr muted" }, u.email || ""),
+      h("div", { class: "row" },
+        !self && u.status !== "approved" ? h("button", { type: "button", class: "btn sm", onclick: () => safe(() => updateDoc(ref, { status: "approved" }), "המשתמש אושר") }, "אישור כניסה") : null,
+        !self && u.status !== "blocked" ? h("button", { type: "button", class: "btn sm sec", onclick: () => safe(() => updateDoc(ref, { status: "blocked" }), "המשתמש נחסם") }, "חסימה") : null,
+        !self ? h("button", { type: "button", class: "btn sm warn", onclick: () => { if (confirm("להסיר את המשתמש מהרשימה?")) safe(() => deleteDoc(ref), "המשתמש הוסר"); } }, "הסרה") : null));
+  }
+
+  function update() {
+    const byName = (a, b) => (a.name || "").localeCompare(b.name || "", "he");
+    const sections = [["pending", "ממתינים לאישור"], ["approved", "משתמשים מאושרים"], ["blocked", "חסומים"]];
+    const out = [];
+    for (const [st, label] of sections) {
+      const us = state.users.filter(u => u.status === st).sort(byName);
+      if (!us.length) continue;
+      out.push(h("section", { class: "group" }, h("h2", {}, `${label} (${us.length})`), h("div", { class: "lists", style: "margin-top:.4rem" }, us.map(userCard))));
+    }
+    if (!out.length) out.push(h("div", { class: "card" }, h("p", {}, "עדיין אין משתמשים.")));
+    list.replaceChildren(...out);
+  }
+  return { node, update };
+}
+</script>
+</body>
+</html>
