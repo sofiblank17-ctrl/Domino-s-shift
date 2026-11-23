@@ -61,19 +61,42 @@ p{margin:.4rem 0}
 .top .icon:hover{background:rgba(255,255,255,.26)}
 .icon.txt{font-weight:500}
 
-/* nav */
-.tabs{position:fixed;inset-inline:12px;bottom:calc(10px + env(safe-area-inset-bottom));display:flex;gap:.2rem;padding:.3rem;background:var(--surface);background:color-mix(in srgb,var(--surface) 90%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow-lg);z-index:20}
-.tabs button{flex:1;min-height:3.1rem;border:0;border-radius:20px;background:transparent;color:var(--muted);font:inherit;font-weight:500;padding:.3rem .2rem;cursor:pointer;transition:background .22s var(--ease),color .22s,transform .15s var(--ease)}
-.tabs button:active{transform:scale(.96)}
-.tabs button[aria-current="page"]{background:var(--soft);color:var(--accent);font-weight:700;box-shadow:inset 0 0 0 1px var(--line)}
-.count{display:inline-block;min-width:1.3rem;padding:0 .35rem;margin-inline-start:.3rem;border-radius:99px;background:var(--red);color:#fff;font-size:.75rem;font-weight:700;line-height:1.3rem}
-@media (min-width:760px){
-  .tabs{position:static;margin:1.2rem auto 0;width:max-content;max-width:94%;border-radius:999px}
-  .tabs button{flex:0 0 8.5rem;border-radius:999px}
-}
+/* menus */
+.menu{position:relative}
+.top .menu .dot{position:absolute;top:.4rem;inset-inline-end:.4rem;width:.7rem;height:.7rem;border-radius:50%;background:var(--brand-red);border:2px solid #fff}
+.count{display:inline-block;min-width:1.4rem;padding:0 .4rem;border-radius:99px;background:var(--red);color:#fff;font-size:.78rem;font-weight:700;line-height:1.4rem;text-align:center}
+.logo{display:inline-grid;place-items:center;flex:none}
+dialog.drawer{margin:0;padding:0;border:0;position:fixed;top:0;bottom:0;width:min(20rem,86vw);height:100dvh;max-height:100dvh;background:var(--surface);color:var(--text);box-shadow:var(--shadow-lg)}
+dialog.drawer[data-side="nav"]{inset-inline-start:0;inset-inline-end:auto;border-radius:30px 0 0 30px}
+dialog.drawer[data-side="settings"]{inset-inline-start:auto;inset-inline-end:0;border-radius:0 30px 30px 0}
+@keyframes slide-r{from{transform:translateX(100%)}to{transform:none}}
+@keyframes slide-l{from{transform:translateX(-100%)}to{transform:none}}
+dialog.drawer[open][data-side="nav"]{animation:slide-r .26s var(--ease)}
+dialog.drawer[open][data-side="settings"]{animation:slide-l .26s var(--ease)}
+.drawer-in{display:flex;flex-direction:column;gap:.25rem;height:100%;padding:1rem;overflow:auto}
+.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;font-size:1.2rem}
+.drawer-head .icon:hover{background:var(--soft)}
+.dr-item{display:flex;align-items:center;justify-content:space-between;gap:.6rem;min-height:3.2rem;padding:.6rem 1rem;border:0;border-radius:16px;background:transparent;color:var(--text);font:inherit;font-weight:500;cursor:pointer;text-align:start;transition:background .2s,transform .15s var(--ease)}
+.dr-item:hover{background:var(--soft)}
+.dr-item:active{transform:scale(.98)}
+.dr-item[aria-current="page"]{background:var(--soft);color:var(--accent);font-weight:700;box-shadow:inset 0 0 0 1px var(--line)}
+.dr-item.danger{color:var(--red)}
+:root[data-theme="dark"] .dr-item.danger{color:#FF8FA0}
+.dr-sep{height:1px;background:var(--line);margin:.5rem .3rem}
+
+/* welcome */
+.welcome{max-width:26rem;margin:2.2rem auto 0;text-align:center;display:grid;gap:.5rem;justify-items:center}
+.welcome h1{font-size:2rem;font-weight:800;margin-top:.6rem}
+.welcome h1:focus{outline:none}
+.welcome .ask{font-size:1.15rem;color:var(--muted);margin-bottom:.9rem}
+.choices{display:grid;gap:.8rem;width:100%}
+.choice{min-height:4rem;border-radius:22px;border:1.5px solid var(--line);background:var(--surface);color:var(--text);font:inherit;font-size:1.15rem;font-weight:700;cursor:pointer;box-shadow:var(--shadow);transition:transform .18s var(--ease),border-color .2s,background .2s}
+.choice:hover{border-color:var(--accent);background:var(--soft);transform:translateY(-2px)}
+.choice:active{transform:scale(.98)}
+.choice.last{border-color:var(--accent)}
 
 /* layout */
-main{max-width:46rem;margin:0 auto;padding:1.2rem 1rem 8rem}
+main{max-width:46rem;margin:0 auto;padding:1.2rem 1rem 3rem}
 main:focus{outline:none}
 .ph{font-size:1.55rem;font-weight:800;margin-bottom:.9rem}
 .lists{display:grid;gap:1rem;margin-top:1rem}
@@ -175,16 +198,16 @@ dialog[open]{animation:pop .22s var(--ease)}
 dialog::backdrop{background:rgba(8,24,34,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
 .dlg-in{padding:1.3rem}
 .dlg-in h2{margin-bottom:.6rem}
-.toast{position:fixed;inset-inline:1rem;bottom:calc(6rem + env(safe-area-inset-bottom));max-width:30rem;margin-inline:auto;padding:.8rem 1.2rem;border-radius:999px;background:#12232C;color:#fff;font-weight:500;text-align:center;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s,transform .25s var(--ease);z-index:50;box-shadow:var(--shadow-lg)}
+.toast{position:fixed;inset-inline:1rem;bottom:calc(1.5rem + env(safe-area-inset-bottom));max-width:30rem;margin-inline:auto;padding:.8rem 1.2rem;border-radius:999px;background:#12232C;color:#fff;font-weight:500;text-align:center;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s,transform .25s var(--ease);z-index:50;box-shadow:var(--shadow-lg)}
 .toast.err{background:var(--red)}
 .toast.show{opacity:1;transform:none}
-@media (min-width:760px){.toast{bottom:1.5rem}}
 </style>
 </head>
 <body>
 <a class="skip" href="#view">דלגו לתוכן הראשי</a>
 <div id="app"></div>
 <dialog id="dlg" aria-modal="true"></dialog>
+<dialog id="drawer" class="drawer" aria-label="תפריט"></dialog>
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 <noscript><p style="padding:1rem">האתר דורש JavaScript כדי לעבוד. יש להפעיל אותו בדפדפן.</p></noscript>
 
@@ -309,14 +332,17 @@ function applyPrefs() {
   document.documentElement.dataset.theme = store.get("sa_theme", dark ? "dark" : "light");
 }
 applyPrefs();
-function toolsNode() {
-  return h("div", { class: "tools" },
-    h("button", { type: "button", class: "icon", "aria-label": "הקטנת טקסט", onclick: () => { sizeIdx = Math.max(0, sizeIdx - 1); store.set("sa_size", sizeIdx); applyPrefs(); } }, "א−"),
-    h("button", { type: "button", class: "icon", "aria-label": "הגדלת טקסט", onclick: () => { sizeIdx = Math.min(SIZES.length - 1, sizeIdx + 1); store.set("sa_size", sizeIdx); applyPrefs(); } }, "א+"),
-    h("button", { type: "button", class: "icon", "aria-label": "מעבר בין מצב כהה ומצב בהיר", onclick: () => { const d = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; store.set("sa_theme", d); applyPrefs(); } }, h("span", { html: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg>' }))
-  );
+function bumpSize(d) { sizeIdx = Math.max(0, Math.min(SIZES.length - 1, sizeIdx + d)); store.set("sa_size", sizeIdx); applyPrefs(); }
+function toggleTheme() { const d = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; store.set("sa_theme", d); applyPrefs(); }
+const LOGO_SVG = '<svg viewBox="0 0 40 40" width="100%" height="100%" focusable="false" aria-hidden="true"><rect width="40" height="40" rx="12" fill="#fff"/><g transform="rotate(-45 20 20)"><rect x="6" y="11" width="28" height="18" rx="4.5" fill="#E31837"/><path d="M6 15.5a4.5 4.5 0 0 1 4.5-4.5H20v18h-9.5A4.5 4.5 0 0 1 6 24.5z" fill="#006491"/><circle cx="12.5" cy="16.5" r="1.9" fill="#fff"/><circle cx="12.5" cy="23.5" r="1.9" fill="#fff"/><circle cx="27" cy="20" r="1.9" fill="#fff"/><circle cx="31" cy="16" r="0" fill="#fff"/></g></svg>';
+function logoNode(size = 40) {
+  const box = h("span", { class: "logo", style: `width:${size}px;height:${size}px`, html: LOGO_SVG });
+  const img = new Image();
+  img.alt = "";
+  img.onload = () => { img.style.cssText = "width:100%;height:100%;object-fit:contain"; box.replaceChildren(img); };
+  img.src = "logo.png";
+  return box;
 }
-const LOGO = '<svg viewBox="0 0 30 46" width="24" height="37" focusable="false" aria-hidden="true"><rect x="1.5" y="1.5" width="27" height="43" rx="6" fill="#fff"/><line x1="5" y1="23" x2="25" y2="23" stroke="#006491" stroke-width="2"/><circle cx="9" cy="9" r="3" fill="#E31837"/><circle cx="21" cy="15" r="3" fill="#E31837"/><circle cx="9" cy="31" r="3" fill="#006491"/><circle cx="15" cy="37" r="3" fill="#006491"/><circle cx="21" cy="31" r="3" fill="#006491"/></svg>';
 
 /* ---------- dialog ---------- */
 function openDialog(title, body) {
@@ -335,7 +361,11 @@ const state = {
   date: todayISO(),
   fixed: [], personal: [], run: null, highlights: [], future: [], users: [], cfg: null,
   hlFilter: "active", showPast: false,
-  dataOn: false, shellBuilt: false
+  dataOn: false, shellBuilt: false, screen: "", welcomed: false, role: null
+};
+const sess = {
+  get(k) { try { return sessionStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { sessionStorage.setItem(k, v); } catch { /* ignore */ } }
 };
 let profSub = null, dataSubs = [], runUnsub = null, current = null;
 let pendingSignup = null, creatingProfile = false;
@@ -346,6 +376,9 @@ onAuthStateChanged(auth, user => {
   if (profSub) { profSub(); profSub = null; }
   stopData();
   state.user = user; state.profile = null; state.isAdmin = false; state.shellBuilt = false; current = null;
+  state.welcomed = !!user && sess.get("sa_w") === user.uid;
+  state.role = state.welcomed ? sess.get("sa_role") : null;
+  const dr = $("#drawer"); if (dr.open) dr.close();
   if (!user) { showAuth("login"); return; }
   showLoading();
   profSub = onSnapshot(doc(db, "users", user.uid), handleProfile, e => {
@@ -402,6 +435,7 @@ function route() {
   const member = state.isAdmin || p.status === "approved";
   if (!member) { stopData(); showPending(p.status === "blocked"); return; }
   startData();
+  if (!state.welcomed) { if (state.screen !== "welcome") showWelcome(); return; }
   if (!state.shellBuilt) buildShell();
   updateChrome();
   if (!current) openTab(state.tab === "admin" && !state.isAdmin ? "checklist" : state.tab, false);
@@ -409,18 +443,41 @@ function route() {
 
 /* ---------- simple views ---------- */
 function showLoading() {
-  state.shellBuilt = false;
+  state.shellBuilt = false; state.screen = "loading";
   root.replaceChildren(h("div", { class: "center" }, h("p", { role: "status" }, "טוען…")));
 }
 
 function authHeader() {
   return h("header", { class: "top" },
-    h("div", { class: "brand" }, h("span", { html: LOGO }), h("div", {}, h("strong", {}, "עוזר משמרת"), h("span", { class: "who" }, "כלי עבודה לאחמ\"שים במוקד"))),
-    toolsNode());
+    h("div", { class: "brand" }, logoNode(), h("div", {}, h("strong", {}, "עוזר משמרת"), h("span", { class: "who" }, "כלי עבודה לאחמ\"שים במוקד"))),
+    settingsButton());
 }
 
+function showWelcome() {
+  state.shellBuilt = false; state.screen = "welcome"; current = null;
+  const name = (state.profile && state.profile.name) || "";
+  const last = store.get("sa_lastrole", "");
+  const opts = state.isAdmin ? [["shiftLead", ROLES.shiftLead], ["ops", ROLES.ops], ["all", "צפייה בהכול (מנהל/ת)"]] : Object.entries(ROLES);
+  const title = h("h1", { tabindex: "-1" }, "שלום " + name);
+  root.replaceChildren(authHeader(), h("main", { id: "view" },
+    h("section", { class: "welcome" },
+      logoNode(72), title,
+      h("p", { class: "ask" }, "איזה תפקיד תבחר/י היום?"),
+      h("div", { class: "choices", role: "group", "aria-label": "בחירת תפקיד" },
+        opts.map(([k, l]) => h("button", { type: "button", class: "choice" + (k === last ? " last" : ""), onclick: () => chooseRole(k) }, l))))));
+  title.focus({ preventScroll: true });
+}
+
+function chooseRole(k) {
+  state.role = k; state.welcomed = true; state.tab = "checklist";
+  sess.set("sa_w", state.user.uid); sess.set("sa_role", k);
+  store.set("sa_lastrole", k); store.set("sa_tab", "checklist");
+  route();
+}
+function switchRole() { state.welcomed = false; sess.set("sa_w", ""); showWelcome(); }
+
 function showAuth(mode) {
-  state.shellBuilt = false;
+  state.shellBuilt = false; state.screen = "auth";
   const err = h("p", { class: "err", role: "alert" });
   const name = h("input", { type: "text", autocomplete: "name", maxlength: "40" });
   const email = h("input", { type: "email", autocomplete: "email" });
@@ -472,7 +529,7 @@ function showAuth(mode) {
 }
 
 function showPending(blocked) {
-  state.shellBuilt = false; current = null;
+  state.shellBuilt = false; state.screen = "pending"; current = null;
   const u = state.user;
   const adminUnverified = (u.email || "").toLowerCase() === ADMIN_EMAIL && !u.emailVerified;
   const card = h("div", { class: "card auth" },
@@ -487,25 +544,62 @@ function showPending(blocked) {
   root.replaceChildren(authHeader(), h("main", { id: "view", tabindex: "-1" }, card));
 }
 
-/* ---------- shell ---------- */
-const TABS = [["checklist", "צ'ק ליסט"], ["highlights", "דגשים"], ["fixed", "קבועות"], ["future", "עתידיות"], ["admin", "ניהול"]];
+/* ---------- drawers ---------- */
+const ICON_MENU = '<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
 
-function buildShell() {
-  state.shellBuilt = true; current = null;
-  root.replaceChildren(
-    h("header", { class: "top" },
-      h("div", { class: "brand" }, h("span", { html: LOGO }), h("div", {}, h("strong", {}, "עוזר משמרת"), h("span", { class: "who", id: "who" }))),
-      h("div", { class: "tools-wrap" }, toolsNode(), h("button", { type: "button", class: "icon txt", onclick: () => signOut(auth) }, "יציאה"))),
-    h("div", { id: "banner" }),
-    h("nav", { class: "tabs", id: "nav", "aria-label": "ניווט ראשי" }),
-    h("main", { id: "view", tabindex: "-1" }));
+function openDrawer(side, title, items) {
+  const d = $("#drawer");
+  d.dataset.side = side;
+  d.replaceChildren(h("div", { class: "drawer-in" },
+    h("div", { class: "drawer-head" }, h("strong", {}, title),
+      h("button", { type: "button", class: "icon", "aria-label": "סגירה", onclick: () => d.close() }, "✕")),
+    items.map(it => it.sep ? h("div", { class: "dr-sep", role: "separator" }) :
+      h("button", {
+        type: "button", class: "dr-item" + (it.danger ? " danger" : ""), "aria-current": it.current ? "page" : null,
+        onclick: () => { if (!it.keep) d.close(); it.run(); }
+      }, it.label, it.badge > 0 ? h("span", { class: "count" }, String(it.badge)) : null))));
+  d.showModal();
+}
+$("#drawer").addEventListener("click", e => { if (e.target === e.currentTarget) e.currentTarget.close(); });
+
+const TABS = [["checklist", "צ'ק ליסט"], ["highlights", "דגשים"], ["fixed", "משימות קבועות"], ["future", "עתידיות"], ["admin", "ניהול"]];
+
+function navBadges() {
+  return { highlights: unreadCount(), admin: state.isAdmin ? state.users.filter(u => u.status === "pending").length : 0 };
+}
+function openNav() {
+  const b = navBadges();
+  openDrawer("nav", "עמודים", TABS.filter(([k]) => k !== "admin" || state.isAdmin).map(([k, label]) =>
+    ({ label, current: state.tab === k, badge: b[k] || 0, run: () => openTab(k, true) })));
+}
+function openSettings() {
+  const dark = document.documentElement.dataset.theme === "dark";
+  const items = [
+    { label: dark ? "מצב בהיר" : "מצב כהה", run: toggleTheme },
+    { label: "הגדלת טקסט", run: () => bumpSize(1), keep: true },
+    { label: "הקטנת טקסט", run: () => bumpSize(-1), keep: true }
+  ];
+  if (state.user && state.welcomed && state.profile) items.push({ label: "החלפת תפקיד", run: switchRole });
+  if (state.user) { items.push({ sep: true }); items.push({ label: "יציאה", danger: true, run: () => signOut(auth) }); }
+  openDrawer("settings", "הגדרות", items);
+}
+function settingsButton() {
+  return h("button", { type: "button", class: "icon menu", "aria-label": "הגדרות ויציאה", "aria-haspopup": "dialog", onclick: openSettings }, h("span", { html: ICON_MENU }));
 }
 
-function renderNav() {
-  const nav = $("#nav");
-  nav.dataset.admin = String(state.isAdmin);
-  nav.replaceChildren(...TABS.filter(([k]) => k !== "admin" || state.isAdmin).map(([k, label]) =>
-    h("button", { type: "button", id: "tab-" + k, onclick: () => openTab(k, true) }, label, h("span", { class: "count", id: "bd-" + k, hidden: true }))));
+/* ---------- shell ---------- */
+function buildShell() {
+  state.shellBuilt = true; state.screen = "app"; current = null;
+  root.replaceChildren(
+    h("header", { class: "top" },
+      h("div", { class: "brand" },
+        h("button", { type: "button", class: "icon menu", id: "navbtn", "aria-label": "תפריט ניווט", "aria-haspopup": "dialog", onclick: openNav },
+          h("span", { html: ICON_MENU }), h("span", { class: "dot", id: "navdot", hidden: true })),
+        logoNode(),
+        h("div", {}, h("strong", {}, "עוזר משמרת"), h("span", { class: "who", id: "who" }))),
+      settingsButton()),
+    h("div", { id: "banner" }),
+    h("main", { id: "view", tabindex: "-1" }));
 }
 
 function unreadCount() {
@@ -515,30 +609,22 @@ function unreadCount() {
 
 function updateChrome() {
   if (!state.shellBuilt || !state.profile) return;
-  const nav = $("#nav");
-  if (nav.dataset.admin !== String(state.isAdmin) || !nav.children.length) renderNav();
-  $("#who").textContent = (state.profile.name || "") + (state.isAdmin ? ", מנהל/ת" : "");
-  const setCount = (k, n) => {
-    const el = $("#bd-" + k); if (!el) return;
-    el.hidden = !(n > 0); el.textContent = n > 0 ? String(n) : "";
-    const tab = $("#tab-" + k);
-    if (tab) tab.setAttribute("aria-label", n > 0 ? `${TABS.find(t => t[0] === k)[1]}, ${n} חדשים` : TABS.find(t => t[0] === k)[1]);
-  };
-  setCount("highlights", unreadCount());
-  setCount("admin", state.isAdmin ? state.users.filter(u => u.status === "pending").length : 0);
-  TABS.forEach(([k]) => { const b = $("#tab-" + k); if (b) { if (k === state.tab) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); } });
+  $("#who").textContent = (state.profile.name || "") + " · " + roleLabel();
+  const b = navBadges(), n = b.highlights + b.admin;
+  $("#navdot").hidden = !(n > 0);
+  $("#navbtn").setAttribute("aria-label", n > 0 ? `תפריט ניווט, ${n} חדשים` : "תפריט ניווט");
 
-  const b = $("#banner");
+  const bn = $("#banner");
   const upd = (state.cfg && state.cfg.updatedAt) || 0;
   const seen = state.profile.fixedSeenAt || 0;
   const key = (!state.isAdmin && upd > seen) ? String(upd) : "";
-  if (b.dataset.k !== key) {
-    b.dataset.k = key;
+  if (bn.dataset.k !== key) {
+    bn.dataset.k = key;
     if (key) {
-      b.replaceChildren(h("div", { class: "banner", role: "status" },
+      bn.replaceChildren(h("div", { class: "banner", role: "status" },
         h("span", {}, "עודכנו המשימות הקבועות" + (state.cfg.summary ? ": " + state.cfg.summary : "")),
         h("button", { type: "button", class: "btn sm", onclick: () => safe(() => updateDoc(doc(db, "users", state.user.uid), { fixedSeenAt: Date.now() })) }, "הבנתי")));
-    } else b.replaceChildren();
+    } else bn.replaceChildren();
   }
 }
 
@@ -626,9 +712,12 @@ async function saveRun(patch) {
 /* ---------- checklist ---------- */
 function currentRole() {
   const valid = state.isAdmin ? ["all", "shiftLead", "ops"] : ["shiftLead", "ops"];
-  const cands = [state.run && state.run.role, store.get("sa_role_" + runId(), ""), store.get("sa_lastrole", "")];
-  for (const c of cands) if (valid.includes(c)) return c;
-  return state.isAdmin ? "all" : (ROLES[state.profile.role] ? state.profile.role : "shiftLead");
+  return valid.includes(state.role) ? state.role : (state.isAdmin ? "all" : "shiftLead");
+}
+function roleLabel() {
+  const r = currentRole();
+  if (state.isAdmin) return r === "all" ? "מנהל/ת" : "מנהל/ת, " + ROLES[r];
+  return ROLES[r];
 }
 
 function checklistItems() {
@@ -670,29 +759,6 @@ function checklistTab() {
     onchange: e => { state.date = e.target.value || todayISO(); subscribeRun(); openTab("checklist", false); }
   });
 
-  const roleBox = h("div", { class: "rolebox" });
-  function renderRole() {
-    const opts = state.isAdmin ? [["all", "הכול"], ["shiftLead", ROLES.shiftLead], ["ops", ROLES.ops]] : Object.entries(ROLES);
-    const cur = currentRole();
-    const sig = cur + "|" + state.isAdmin;
-    if (roleBox.dataset.sig === sig) return;
-    roleBox.dataset.sig = sig;
-    const had = roleBox.contains(document.activeElement);
-    const idx = had ? [...roleBox.querySelectorAll("button")].indexOf(document.activeElement) : -1;
-    roleBox.replaceChildren(
-      h("p", { class: "meta" }, state.isAdmin ? "אילו משימות קבועות להציג" : "התפקיד שלי במשמרת הזו"),
-      h("div", { class: "seg", role: "group", "aria-label": "בחירת תפקיד" },
-        opts.map(([k, l]) => h("button", { type: "button", "aria-pressed": String(cur === k), onclick: () => chooseRole(k) }, l))));
-    if (idx >= 0) roleBox.querySelectorAll("button")[idx].focus();
-  }
-  function chooseRole(k) {
-    store.set("sa_role_" + runId(), k);
-    store.set("sa_lastrole", k);
-    if (state.run) state.run.role = k;
-    update();
-    saveRun({ role: k });
-  }
-
   const oneIn = h("input", { type: "text", maxlength: "120", autocomplete: "off" });
   const addForm = h("form", {
     class: "card form-card row",
@@ -707,8 +773,8 @@ function checklistTab() {
 
   const node = h("section", {},
     h("h1", { class: "ph" }, "צ'ק ליסט משמרת"),
+    h("p", { class: "meta" }, "תפקיד היום: " + roleLabel()),
     h("div", { class: "controls" }, h("div", {}, h("p", { class: "meta" }, "משמרת"), seg), field("תאריך", dateIn)),
-    roleBox,
     tile, barWrap, list, addForm,
     h("div", { class: "row end" }, h("button", { type: "button", class: "btn sec", onclick: openEndShift }, "סיום משמרת וסיכום")));
 
@@ -725,7 +791,6 @@ function checklistTab() {
   }
 
   function update() {
-    renderRole();
     if (!state.run) { list.replaceChildren(h("p", { class: "muted" }, "טוען…")); return; }
     const active = document.activeElement;
     const focusKey = active && active.dataset ? active.dataset.key : null;
